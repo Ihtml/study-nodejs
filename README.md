@@ -15,3 +15,15 @@ Node.js常用场景：
 * Web Server
 * 本地代码构建（webpack、babel）
 * 开发小工具
+
+## Node.js的CommonJS规范
+
+Node.js使用**CommonJS**规范作为模块标准。
+
+CommonJS规范的规定：
+
+1. 每个文件是一个模块，有自己的作用域。
+2. 在模块内部**module**变量代表模块本身。
+3. **module.exports**属性代表模块对外接口。
+
+Node.js使用**global**作为全局对象；global有个**process**属性，代表当前执行的进程；
