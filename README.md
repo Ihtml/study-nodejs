@@ -26,6 +26,21 @@ CommonJS规范的规定：
 2. 在模块内部**module**变量代表模块本身。
 3. **module.exports**属性代表模块对外接口。
 
+Node.js的模块有自己的作用域的原理是：模块在执行时，会被一个👇函数包裹
+
+```js
+(function (exports, require, module, __filename, __dirname) {
+    // exports 对象，代表模块的输出，对外提供的接口和属性
+    // require 一个函数，需要依赖其他模块时调用
+    // module 代表当前模块本身
+    // __filename 文件实际的路径
+    // __dirname 文件所在文件夹路径
+    // module content
+})
+```
+
+
+
 **require**规则：
 
 1. / 表示绝对路径，./表示相对于当前文件的路径
