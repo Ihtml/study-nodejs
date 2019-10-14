@@ -26,20 +26,29 @@ CommonJS规范的规定：
 2. 在模块内部**module**变量代表模块本身。
 3. **module.exports**属性代表模块对外接口。
 
-Node.js的模块有自己的作用域的原理是：模块在执行时，会被一个👇函数包裹
+Node.js的模块有自己的作用域的原理是：模块在执行时，会Node.js包裹一个函数。
 
 ```js
+const exports = module.exports
 (function (exports, require, module, __filename, __dirname) {
     // exports 对象，代表模块的输出，对外提供的接口和属性
     // require 一个函数，需要依赖其他模块时调用
     // module 代表当前模块本身
     // __filename 文件实际的路径
     // __dirname 文件所在文件夹路径
-    // module content
+    // module content code
 })
 ```
 
+**module.exports与exports的区别:**
 
+exports就相当于module.exports的快捷方式，**不可以改变exports的指向**。比如`exports = {test: 123};`是错误的用法，**CommonJS中模块对外的输出永远是module.exports,**修改exports的指向后就不生效了。这种情况应该用module.exports.
+
+```
+exports.test = 123; // 没问题，exports依然指向module.exports
+exports = {test: 123}; // 会改变exports的指向{test: 123}对象
+module.exports = {test: 123}; // 没问题
+```
 
 **require**规则：
 
@@ -49,6 +58,8 @@ Node.js的模块有自己的作用域的原理是：模块在执行时，会被�
 4. module模块**第一次被加载的时候会执行**，**加载后会缓存**（第二次加载直接用放在内存中的结果）
 5. 一旦出现某个模块被**循环加载**，就只输出已经执行的部分，还未执行的部分不会输出。
 6. 引用系统自带模块不用写路径，比如引用fs模块（file system）,只需`const fs = require('fs')`；引用第三方模块，需要先通过npm安装，然后就直接通过文件名引用。
-7. 通过npm下载的第三方模块，会放在node_modules文件夹内，同时模块依赖的其他模块也会被下载到这个文件夹下。当通过模块名引用模块时，如果自带模块里没有，就会到node_modules文件夹里找，如果再找不到就会层层向上找直到根目录。现在Node做了优化，第三方模块会平级地放到node_modules中。
+7. 通过npm下载的第三方模块，会放在node_modules文件夹内，同时模块依赖的其他模块也会被下载到这个文件夹下。当通过模块名引用模块时，如果自带模块里没有，就会到node_modules文件夹里找，如果再找不到就会层层向上找直到根目录。现在Node做了优化，第三方模块会平级地放到node_modules中。通过`npm roo -g`查看全局模块安装目录，在`/usr/local/lib/node_modules`
+
+
 
 Node.js使用**global**作为全局对象；global有个**process**属性，代表当前执行的进程；
