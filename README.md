@@ -60,6 +60,14 @@ module.exports = {test: 123}; // 没问题
 6. 引用系统自带模块不用写路径，比如引用fs模块（file system）,只需`const fs = require('fs')`；引用第三方模块，需要先通过npm安装，然后就直接通过文件名引用。
 7. 通过npm下载的第三方模块，会放在node_modules文件夹内，同时模块依赖的其他模块也会被下载到这个文件夹下。当通过模块名引用模块时，如果自带模块里没有，就会到node_modules文件夹里找，如果再找不到就会层层向上找直到根目录。现在Node做了优化，第三方模块会平级地放到node_modules中。通过`npm roo -g`查看全局模块安装目录，在`/usr/local/lib/node_modules`
 
+**global全局对象：**
 
+javascript在浏览器运行的时候，会把全局的属性和方法挂载到**window**对象中。而Node.js使用**global**作为全局对象；
 
-Node.js使用**global**作为全局对象；global有个**process**属性，代表当前执行的进程；
+global带有的一些常用的属性和方法：
+
+* CommonJS，在Node.js中能直接用CommonJS因为它挂载在全局中
+* Buffer（二进制的处理）、process（进程相关）、console
+* timer
+
+global有个**process**属性，代表当前执行的进程；
