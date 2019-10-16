@@ -70,4 +70,12 @@ global带有的一些常用的属性和方法：
 * Buffer（二进制的处理）、process（进程相关）、console
 * timer
 
-global有个**process**属性，代表当前执行的进程；
+**process进程：**
+
+global的**process**属性，代表当前执行的进程，它有如下常见属性：
+
+* [process.argv](http://nodejs.cn/api/process.html#process_process_argv)，返回一个数组，其中包含当启动 Node.js 进程时传入的命令行参数,可以在外部传入文件的时候传入自定义的参数。
+* [process.argv0](http://nodejs.cn/api/process.html#process_process_argv0), 保存当 Node.js 启动时传入的 `argv[0]` 的原始值的只读副本
+* [process.execArgv](http://nodejs.cn/api/process.html#process_process_execargv), 返回当 Node.js 进程被启动时，Node.js 特定的命令行选项。` node --harmony script.js —version`返回`['--harmony']`
+* [process.execPath](http://nodejs.cn/api/process.html#process_process_execpath), 返回启动 Node.js 进程的可执行文件的绝对路径名。`'/usr/local/bin/node'`
+
