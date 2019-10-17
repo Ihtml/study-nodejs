@@ -69,13 +69,45 @@ global带有的一些常用的属性和方法：
 * CommonJS，在Node.js中能直接用CommonJS因为它挂载在全局中
 * Buffer（二进制的处理）、process（进程相关）、console
 * timer
+* [setImmediate(callback[, ...args])](http://nodejs.cn/api/timers.html#timers_setimmediate_callback_args),在当前回合的 [Node.js 事件循环](http://nodejs.cn/s/eeiBdr)结束时调用的函数
 
 **process进程：**
 
 global的**process**属性，代表当前执行的进程，它有如下常见属性：
 
 * [process.argv](http://nodejs.cn/api/process.html#process_process_argv)，返回一个数组，其中包含当启动 Node.js 进程时传入的命令行参数,可以在外部传入文件的时候传入自定义的参数。
+
 * [process.argv0](http://nodejs.cn/api/process.html#process_process_argv0), 保存当 Node.js 启动时传入的 `argv[0]` 的原始值的只读副本
+
 * [process.execArgv](http://nodejs.cn/api/process.html#process_process_execargv), 返回当 Node.js 进程被启动时，Node.js 特定的命令行选项。` node --harmony script.js —version`返回`['--harmony']`
+
 * [process.execPath](http://nodejs.cn/api/process.html#process_process_execpath), 返回启动 Node.js 进程的可执行文件的绝对路径名。`'/usr/local/bin/node'`
 
+* [process.env](http://nodejs.cn/api/process.html#process_process_env) , 返回包含用户环境的对象。
+
+  ```
+  {
+    TERM: 'xterm-256color',
+    SHELL: '/usr/local/bin/bash',
+    USER: 'maciej',
+    PATH: '~/.bin/:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
+    PWD: '/Users/maciej',
+    EDITOR: 'vim',
+    SHLVL: '1',
+    HOME: '/Users/maciej',
+    LOGNAME: 'maciej',
+    _: '/usr/local/bin/node'
+  }
+  ```
+
+* [process.cwd()](http://nodejs.cn/api/process.html#process_process_cwd),返回 Node.js 进程的当前工作目录。相当于`pwd`命令。
+
+  ```js
+  console.log(`当前工作目录是: ${process.cwd()}`);
+  ```
+
+  
+
+  
+
+  
