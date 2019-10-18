@@ -116,3 +116,127 @@ Node.js有多种调试方式，可以参考官方文档[调试指南](https://no
 如果是使用Chromium 内核的浏览器打开 `chrome://inspect`。点击配置按钮确保你的目标宿主和端口号列入其中。在命令行里启动文件的时候加上`--inspect-brk`,例如：`node --inspect-brk test.js`会让test.js在入口处停住。现在浏览器窗口里会有Remote Target,点击inspect就进入调试环境。
 
 如果使用VScode编辑器开发，点击左侧侧边栏调试按钮，再点击开始调试按钮就可以开始调试。
+
+## 五、Node.js常见API
+
+#### Path
+
+[path](http://nodejs.cn/api/path.html)是用来处理和路径有关的模块。它是内置模块所有可以直接引用:
+
+```
+const path = require('path');
+```
+
+[path.basename(path[, ext])](http://nodejs.cn/api/path.html#path_path_basename_path_ext), 返回 `path` 的最后一部分
+
+```
+path.basename('/foo/bar/baz/asdf/quux.html');
+// 返回: 'quux.html'
+path.basename('/foo/bar/baz/asdf/quux.html', '.html');
+// 返回: 'quux'
+```
+
+[path.delimiter](http://nodejs.cn/api/path.html#path_path_delimiter),返回平台特定路径定界符，`;` 用于 Windows，`:` 用于 POSIX
+
+```
+console.log(process.env.PATH);
+// 打印: 'C:\Windows\system32;C:\Windows;C:\Program Files\node\'
+
+process.env.PATH.split(path.delimiter);
+// 返回: ['C:\\Windows\\system32', 'C:\\Windows', 'C:\\Program Files\\node\\']
+```
+
+[path.dirname(path)](http://nodejs.cn/api/path.html#path_path_dirname_path),返回 `path` 的目录名,如果 `path` 不是字符串，则抛出 [`TypeError`](http://nodejs.cn/s/Z7Lqyj)。
+
+```
+path.dirname('/foo/bar/baz/asdf/quux');
+// 返回: '/foo/bar/baz/asdf'
+```
+
+[path.extname(path)](http://nodejs.cn/api/path.html#path_path_extname_path),返回 `path` 的扩展名，从最后一次出现 `.`（句点）字符到 `path` 最后一部分的字符串结束。 如果在 `path` 的最后一部分中没有 `.` ，或者如果 `path` 的基本名称除了第一个字符以外没有 `.`，则返回空字符串。
+
+```
+path.extname('index.html');
+// 返回: '.html'
+path.extname('.index');
+// 返回: ''
+```
+
+[path.parse(path)](http://nodejs.cn/api/path.html#path_path_parse_path),返回一个对象，其属性表示 `path` 的重要元素。
+
+```
+path.parse('/home/user/dir/file.txt');
+// 返回:
+// { root: '/',
+//   dir: '/home/user/dir',
+//   base: 'file.txt',
+//   ext: '.txt',
+//   name: 'file' }
+```
+
+[path.format(pathObject)](http://nodejs.cn/api/path.html#path_path_format_pathobject),从对象返回路径字符串。 与 [`path.parse()`](http://nodejs.cn/s/pqufSi) 相反。
+
+```
+path.format({
+  dir: 'C:\\path\\dir',
+  base: 'file.txt'
+});
+// 返回: 'C:\\path\\dir\\file.txt'
+```
+
+[path.isAbsolute(path)](http://nodejs.cn/api/path.html#path_path_isabsolute_path),检测 `path` 是否为绝对路径。如果给定的 `path` 是零长度字符串，则返回 `false`。如果 `path` 不是字符串，则抛出 [`TypeError`](http://nodejs.cn/s/Z7Lqyj)
+
+```
+path.isAbsolute('/foo/bar'); // true
+path.isAbsolute('/baz/..');  // true
+path.isAbsolute('qux/');     // false
+path.isAbsolute('.');        // false
+```
+
+[path.join([...paths])](http://nodejs.cn/api/path.html#path_path_join_paths),使用平台特定的分隔符作为定界符将所有给定的 `path` 片段连接在一起，然后规范化生成的路径。零长度的 `path` 片段会被忽略。 如果连接的路径字符串是零长度的字符串，则返回 `'.'`，表示当前工作目录。
+
+```
+path.join('/foo', 'bar', 'baz/asdf', 'quux', '..');
+// 返回: '/foo/bar/baz/asdf'
+
+path.join('foo', {}, 'bar');
+// 抛出 'TypeError: Path must be a string. Received {}'
+```
+
+[path.normalize(path)](http://nodejs.cn/api/path.html#path_path_normalize_path),规范化给定的 `path`，解析 `'..'` 和 `'.'` 片段。
+
+```
+path.normalize('/foo/bar//baz/asdf/quux/..');
+// 在 POSIX 上返回: '/foo/bar/baz/asdf'
+path.normalize('C:\\temp\\\\foo\\bar\\..\\');
+// 在 Windows 上返回: 'C:\\temp\\foo\\'
+```
+
+[path.resolve([...paths])](http://nodejs.cn/api/path.html#path_path_resolve_paths),将路径或路径片段的序列解析为绝对路径。给定的路径序列**从右到左进行处理**，每个后续的 `path` 前置，直到构造出一个绝对路径。如果在处理完所有给定的 `path` 片段之后还未生成绝对路径，则再加上当前工作目录。如果没有传入 `path` 片段，则 `path.resolve()` 将返回当前工作目录的绝对路径。
+
+```
+path.resolve('/foo/bar', './baz');
+// 返回: '/foo/bar/baz'
+path.resolve('/foo/bar', '/tmp/file/');
+// 返回: '/tmp/file'
+path.resolve('wwwroot', 'static_files/png/', '../gif/image.gif');
+// 如果当前工作目录是 /home/myself/node，
+// 则返回 '/home/myself/node/wwwroot/static_files/gif/image.gif'
+```
+
+[path.sep](http://nodejs.cn/api/path.html#path_path_sep),提供平台特定的路径片段分隔符：Windows 上是 `\`。POSIX 上是 `/`。
+
+```
+'foo/bar/baz'.split(path.sep);
+// 在 POSIX 上返回: ['foo', 'bar', 'baz']
+'foo\\bar\\baz'.split(path.sep);
+// 在 Windows 上返回: ['foo', 'bar', 'baz']
+```
+
+另外：
+
+* __dirname、__**filename**总是返回文件所在绝对路径
+
+* **process.cwd()**总是返回执行node命令所在文件夹
+
+* **"./"**在require方法中总是相当于当前文件所在的文件夹，而在其它地方和process.cwd()一页，相当于node命令启动时的文件夹。
