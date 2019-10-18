@@ -1,4 +1,4 @@
-## Node.js介绍
+## 一、Node.js介绍
 >Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.		
 
 Node.js® 是一个基于 Chrome V8 引擎 的 JavaScript 运行时。它不是一门语言，它可以让javascript在服务器端运行,Node.js不能使用javascript的DOM和BOM，但提供了http的核心库。       
@@ -16,7 +16,7 @@ Node.js常用场景：
 * 本地代码构建（webpack、babel）
 * 开发小工具
 
-## Node.js的CommonJS规范
+## 二、Node.js的CommonJS规范
 
 Node.js使用**CommonJS**规范作为模块标准。
 
@@ -60,6 +60,8 @@ module.exports = {test: 123}; // 没问题
 6. 引用系统自带模块不用写路径，比如引用fs模块（file system）,只需`const fs = require('fs')`；引用第三方模块，需要先通过npm安装，然后就直接通过文件名引用。
 7. 通过npm下载的第三方模块，会放在node_modules文件夹内，同时模块依赖的其他模块也会被下载到这个文件夹下。当通过模块名引用模块时，如果自带模块里没有，就会到node_modules文件夹里找，如果再找不到就会层层向上找直到根目录。现在Node做了优化，第三方模块会平级地放到node_modules中。通过`npm roo -g`查看全局模块安装目录，在`/usr/local/lib/node_modules`
 
+## 三、Node.js的全局对象
+
 **global全局对象：**
 
 javascript在浏览器运行的时候，会把全局的属性和方法挂载到**window**对象中。而Node.js使用**global**作为全局对象；
@@ -71,7 +73,7 @@ global带有的一些常用的属性和方法：
 * timer
 * [setImmediate(callback[, ...args])](http://nodejs.cn/api/timers.html#timers_setimmediate_callback_args),在当前回合的 [Node.js 事件循环](http://nodejs.cn/s/eeiBdr)结束时调用的函数
 
-**process进程：**
+**process：**
 
 global的**process**属性，代表当前执行的进程，它有如下常见属性：
 
@@ -106,8 +108,11 @@ global的**process**属性，代表当前执行的进程，它有如下常见属
   console.log(`当前工作目录是: ${process.cwd()}`);
   ```
 
-  
 
-  
+## 四、Node.js的调试
 
-  
+Node.js有多种调试方式，可以参考官方文档[调试指南](https://nodejs.org/zh-cn/docs/guides/debugging-getting-started/)，常用的是通过Inspector调试，和借助VScode编辑器调试。
+
+如果是使用Chromium 内核的浏览器打开 `chrome://inspect`。点击配置按钮确保你的目标宿主和端口号列入其中。在命令行里启动文件的时候加上`--inspect-brk`,例如：`node --inspect-brk test.js`会让test.js在入口处停住。现在浏览器窗口里会有Remote Target,点击inspect就进入调试环境。
+
+如果使用VScode编辑器开发，点击左侧侧边栏调试按钮，再点击开始调试按钮就可以开始调试。
