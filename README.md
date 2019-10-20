@@ -119,7 +119,7 @@ Node.js有多种调试方式，可以参考官方文档[调试指南](https://no
 
 ## 五、Node.js常见API
 
-#### Path
+#### 1, Path
 
 [path](http://nodejs.cn/api/path.html)是用来处理和路径有关的模块。它是内置模块所有可以直接引用:
 
@@ -240,3 +240,10 @@ path.resolve('wwwroot', 'static_files/png/', '../gif/image.gif');
 * **process.cwd()**总是返回执行node命令所在文件夹
 
 * **"./"**在require方法中总是相当于当前文件所在的文件夹，而在其它地方和process.cwd()一页，相当于node命令启动时的文件夹。
+
+#### 2, Buffer(缓冲器)
+
+在ES6引入 [`TypedArray`](http://nodejs.cn/s/oh3CkV) 之前，JavaScript 语言没有用于读取或操作二进制数据流的机制, [Buffer](http://nodejs.cn/api/buffer.html#buffer_buffer) 类是作为 Node.js API 的一部分引入的，用于在 TCP 流、文件系统操作、以及其他上下文中与八位字节流进行交互。
+
+Buffer用于处理二进制数据流，实例类似整数数组，大小固定。
+
