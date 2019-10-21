@@ -245,5 +245,19 @@ path.resolve('wwwroot', 'static_files/png/', '../gif/image.gif');
 
 在ES6引入 [`TypedArray`](http://nodejs.cn/s/oh3CkV) 之前，JavaScript 语言没有用于读取或操作二进制数据流的机制, [Buffer](http://nodejs.cn/api/buffer.html#buffer_buffer) 类是作为 Node.js API 的一部分引入的，用于在 TCP 流、文件系统操作、以及其他上下文中与八位字节流进行交互。
 
-Buffer用于处理二进制数据流，实例类似整数数组，大小固定。
+Buffer用于处理二进制数据流，实例类似整数数组，大小固定。Buffer所用的内存是C++代码在V8堆外分配物理内存。Node.js中的代码不纯粹是javascript,还有一部分C++代码。
 
+```
+// 创建一个长度为 10、且用零填充的 Buffer。
+const buf1 = Buffer.alloc(10);
+// 创建一个长度为 10、且用 0x1 填充的 Buffer。 
+const buf2 = Buffer.alloc(10, 1);
+// 创建一个包含 [0x1, 0x2, 0x3] 的 Buffer。
+const buf4 = Buffer.from([1, 2, 3]);
+// 创建一个包含 UTF-8 字节 [0x74, 0xc3, 0xa9, 0x73, 0x74] 的 Buffer。
+const buf5 = Buffer.from('tést');
+```
+
+[Buffer.byteLength(string[, encoding])](http://nodejs.cn/api/buffer.html#buffer_class_method_buffer_bytelength_string_encoding)返回字符串的实际字节长度。
+
+[Buffer.isBuffer(obj)](http://nodejs.cn/api/buffer.html#buffer_class_method_buffer_isbuffer_obj)判断一个对象是不是Buffer对象，是返回true，不是返回false。
