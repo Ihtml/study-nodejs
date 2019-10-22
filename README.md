@@ -261,3 +261,20 @@ const buf5 = Buffer.from('tést');
 [Buffer.byteLength(string[, encoding])](http://nodejs.cn/api/buffer.html#buffer_class_method_buffer_bytelength_string_encoding)返回字符串的实际字节长度。
 
 [Buffer.isBuffer(obj)](http://nodejs.cn/api/buffer.html#buffer_class_method_buffer_isbuffer_obj)判断一个对象是不是Buffer对象，是返回true，不是返回false。
+
+[Buffer.concat(list[, totalLength])](http://nodejs.cn/api/buffer.html#buffer_class_method_buffer_concat_list_totallength),返回一个合并了 `list` 中所有 `Buffer` 实例的新 `Buffer`
+
+Buffer实例的方法：
+
+[buf.length](http://nodejs.cn/api/buffer.html#buffer_buf_length),返回内存中分配给 `buf` 的字节数。
+
+[buf.toString()](http://nodejs.cn/api/buffer.html#buffer_buf_tostring_encoding_start_end),根据 `encoding` 指定的字符编码将 `buf` 解码成字符串。 传入 `start` 和 `end` 可以只解码 `buf` 的子集。
+
+[buf.fill()](http://nodejs.cn/api/buffer.html#buffer_buf_fill_value_offset_end_encoding),用指定的 `value` 填充 `buf`。 
+
+[buf.equals()](),如果 `buf` 与 `otherBuffer` 具有完全相同的字节，则返回 `true`，否则返回 `false`。
+
+[buf.indexOf()](),`buf` 中首次出现 `value` 的索引，如果 `buf` 没包含 `value` 则返回 `-1`。
+
+[buf.copy()](),拷贝 `buf` 中某个区域的数据到 `target` 中的某个区域，即使 `target` 的内存区域与 `buf` 的重叠。
+
