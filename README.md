@@ -278,3 +278,18 @@ Buffer实例的方法：
 
 [buf.copy()](),拷贝 `buf` 中某个区域的数据到 `target` 中的某个区域，即使 `target` 的内存区域与 `buf` 的重叠。
 
+#### 3，[events事件](http://nodejs.cn/api/events.html)
+
+在Node.js中，所有能触发事件的对象都是EventEmitter的实例，这些对象有一个 `eventEmitter.on()` 函数，用于将一个或多个函数绑定到命名事件上。当 `EventEmitter` 对象触发一个事件时，所有绑定在该事件上的函数都会被同步地调用。 被调用的监听器返回的任何值都将会被忽略并丢弃。
+
+```
+const EventEmitter = require('events');
+class MyEmitter extends EventEmitter {}
+
+const myEmitter = new MyEmitter();
+myEmitter.on('event', () => {
+  console.log('触发事件');
+});
+myEmitter.emit('event');
+```
+
