@@ -293,3 +293,37 @@ myEmitter.on('event', () => {
 myEmitter.emit('event');
 ```
 
+`eventEmitter.emit()` 方法可以传任意数量的参数到监听器函数。 当监听器函数被调用时， `this` 关键词会被指向监听器所绑定的 `EventEmitter` 实例。当使用 ES6 的箭头函数作为监听器，this` 关键词不会指向 `EventEmitter实例：
+
+```
+const myEmitter = new MyEmitter();
+myEmitter.on('event', function(a, b) {
+  console.log(a, b, this, this === myEmitter);
+  // 打印:
+  //   a b MyEmitter {
+  //     domain: null,
+  //     _events: { event: [Function] },
+  //     _eventsCount: 1,
+  //     _maxListeners: undefined } true
+});
+myEmitter.emit('event', 'a', 'b');
+myEmitter.on('event', (a, b) => {
+  console.log(a, b, this);
+  // 打印: a b {}
+});
+myEmitter.emit('event', 'a', 'b');
+```
+
+如果事件只想被触发一次，可以用[eventEmitter.on](http://nodejs.cn/api/events.html#events_handling_events_only_once),当事件被触发时，监听器会被注销，然后再调用。
+
+移除事件监听：[emitter.removeListener(eventName, listener)](http://nodejs.cn/api/events.html#events_emitter_removelistener_eventname_listener),从名为 `eventName` 的事件的监听器数组中移除指定的 `listener`。
+
+```
+const callback = (stream) => {
+  console.log('已连接');
+};
+server.on('connection', callback);
+// ...
+server.removeListener('connection', callback);
+```
+
