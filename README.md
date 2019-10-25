@@ -327,3 +327,31 @@ server.on('connection', callback);
 server.removeListener('connection', callback);
 ```
 
+### 4，[fs(文件系统)](http://nodejs.cn/api/fs.html)
+
+`fs` 模块提供了一个 API，用于以模仿标准 POSIX 函数的方式与文件系统进行交互。所有文件系统操作都具有同步和异步的形式, 建议使用这些调用的异步版本。 同步的版本将阻塞整个进程，直到它们完成（停止所有连接）。
+
+异步的形式总是将完成回调作为其最后一个参数。 传给完成回调的参数取决于具体方法，但第一个参数始终预留用于异常。 如果操作成功完成，则第一个参数将为 `null` 或 `undefined`。
+
+```
+const fs = require('fs');
+fs.unlink('/tmp/hello','utf-8', (err) => {
+  if (err) throw err;
+  console.log('已成功删除 /tmp/hello');
+});
+const data = fs.readFileSync('./test.js', 'utf-8') // 同步操作
+console.log(data)
+```
+
+写文件
+
+```
+const fs = require('fs')
+fs.writeFile('./test', 'This is test!', {
+	encoding: 'utf-8'
+}, err => {
+	if (err) throw err;
+	console.log('done!')
+})
+```
+
