@@ -327,7 +327,7 @@ server.on('connection', callback);
 server.removeListener('connection', callback);
 ```
 
-### 4，[fs(文件系统)](http://nodejs.cn/api/fs.html)
+#### 4，[fs(文件系统)](http://nodejs.cn/api/fs.html)
 
 `fs` 模块提供了一个 API，用于以模仿标准 POSIX 函数的方式与文件系统进行交互。所有文件系统操作都具有同步和异步的形式, 建议使用这些调用的异步版本。 同步的版本将阻塞整个进程，直到它们完成（停止所有连接）。
 
@@ -335,7 +335,7 @@ server.removeListener('connection', callback);
 
 ```
 const fs = require('fs');
-fs.unlink('/tmp/hello','utf-8', (err) => {
+fs.unlink('/tmp/hello','utf-8', (err) => { // 删文件
   if (err) throw err;
   console.log('已成功删除 /tmp/hello');
 });
@@ -343,7 +343,16 @@ const data = fs.readFileSync('./test.js', 'utf-8') // 同步操作
 console.log(data)
 ```
 
-写文件
+读文件：[fs.readFile(path[, options], callback)](http://nodejs.cn/api/fs.html#fs_fs_readfile_path_options_callback)异步地读取文件的全部内容。
+
+```
+fs.readFile('/etc/passwd', (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+```
+
+写文件：[fs.writeFile(file, data[, options], callback)](http://nodejs.cn/api/fs.html#fs_fs_writefile_file_data_options_callback)
 
 ```
 const fs = require('fs')
@@ -352,6 +361,44 @@ fs.writeFile('./test', 'This is test!', {
 }, err => {
 	if (err) throw err;
 	console.log('done!')
+})
+```
+
+文件信息：[fs.Stats 类](http://nodejs.cn/api/fs.html#fs_class_fs_stats)
+
+```
+const fs = require('fs')
+fs.stat('./test', (err, stats)=> {
+	if (err) throw err; // 文件不存在
+	console.log('stats.isFile()') // 判断是不是文件
+	console.log('stats.isDirectory') // 判断是不是文件夹
+})
+```
+
+文件重命名：[fs.rename(oldPath, newPath, callback)](http://nodejs.cn/api/fs.html#fs_fs_rename_oldpath_newpath_callback)
+
+```
+fs.rename('旧文件.txt', '新文件.txt', (err) => {
+  if (err) throw err;
+  console.log('重命名完成');
+});
+```
+
+读文件夹：[fs.readdir(path[, options], callback)](http://nodejs.cn/api/fs.html#fs_fs_writefile_file_data_options_callback),异步的读取目录的内容。
+
+创建文件夹：[fs.mkdir(path[, options], callback)](http://nodejs.cn/api/fs.html#fs_fs_mkdir_path_options_callback),异步地创建目录。
+
+删除文件夹：[fs.rmdir(path[, options], callback)](http://nodejs.cn/api/fs.html#fs_fs_rmdir_path_options_callback),在文件（而不是目录）上使用 `fs.rmdir()` 会导致错误。
+
+**监视文件变化**：
+
+[fs.watch(filename[, options][, listener])](http://nodejs.cn/api/fs.html#fs_fs_watch_filename_options_listener)
+
+```
+fs.watch('./', {
+	recursive: true  // 是否递归检查子文件
+}, (eventType, filename) => {
+	console.log(eventType, filename)  // eventType:change、rename
 })
 ```
 
