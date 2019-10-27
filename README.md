@@ -339,7 +339,7 @@ fs.unlink('/tmp/hello','utf-8', (err) => { // 删文件
   if (err) throw err;
   console.log('已成功删除 /tmp/hello');
 });
-const data = fs.readFileSync('./test.js', 'utf-8') // 同步操作
+const data = fs.readFileSync('./test.js', 'utf8') // 同步操作
 console.log(data)
 ```
 
@@ -357,7 +357,7 @@ fs.readFile('/etc/passwd', (err, data) => {
 ```
 const fs = require('fs')
 fs.writeFile('./test', 'This is test!', {
-	encoding: 'utf-8'
+	encoding: 'utf8'
 }, err => {
 	if (err) throw err;
 	console.log('done!')
@@ -399,6 +399,30 @@ fs.watch('./', {
 	recursive: true  // 是否递归检查子文件
 }, (eventType, filename) => {
 	console.log(eventType, filename)  // eventType:change、rename
+})
+```
+
+[fs.ReadStream](http://nodejs.cn/api/fs.html#fs_class_fs_readstream)
+
+stream可以理解为有方向的数据，像水流一样不断产生和被消耗
+
+```
+const fs = require('fs')
+const rs = fs.createReadStream('./readStream.js') // 创建流的数据
+rs.pipe(process.stdout) // 定义方向,输出到控制台
+
+const ws = fs.createWriteStream('./test.txt') // 创建可写流
+const timer = setInterval(() => {
+	const num = parseInt(Math.random() * 10)
+	if (num < 7) {
+		ws.write(num + '')  // 只能读字符串或Buffer，数字要转成字符串
+	} else {
+		clearInterval(tid)
+		ws.end()
+	}
+}, 200)
+ws.on('finish', () => {
+	console.log('write finish')
 })
 ```
 
