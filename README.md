@@ -390,9 +390,7 @@ fs.rename('旧文件.txt', '新文件.txt', (err) => {
 
 删除文件夹：[fs.rmdir(path[, options], callback)](http://nodejs.cn/api/fs.html#fs_fs_rmdir_path_options_callback),在文件（而不是目录）上使用 `fs.rmdir()` 会导致错误。
 
-**监视文件变化**：
-
-[fs.watch(filename[, options][, listener])](http://nodejs.cn/api/fs.html#fs_fs_watch_filename_options_listener)
+**监视文件变化**：[fs.watch()](http://nodejs.cn/api/fs.html#fs_fs_watch_filename_options_listener)
 
 ```
 fs.watch('./', {
@@ -402,7 +400,7 @@ fs.watch('./', {
 })
 ```
 
-[fs.ReadStream](http://nodejs.cn/api/fs.html#fs_class_fs_readstream)
+fs.ReadStream 类[fs.ReadStream](http://nodejs.cn/api/fs.html#fs_class_fs_readstream)
 
 stream可以理解为有方向的数据，像水流一样不断产生和被消耗
 
@@ -424,5 +422,31 @@ const timer = setInterval(() => {
 ws.on('finish', () => {
 	console.log('write finish')
 })
+```
+
+使用[util.promisify(original)](http://nodejs.cn/api/util.html#util_util_promisify_original) 和async**解决回调地狱**
+
+```
+const fs = require('fs')
+const promisify = require('util').promisify
+const read = promisify(fs.readFile)
+
+read('./test1.js').then(data => {
+	console.log(data.toString())
+}).catch(err => {
+	console.log(err)
+})
+
+async function test(){
+	try{
+		const content = await read('./test2.js')
+		console.log(content.toString())
+	}catch(err){
+		console.log(err)
+	}
+}
+test()
+
+
 ```
 
