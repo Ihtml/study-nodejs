@@ -16,5 +16,8 @@
   "license": "ISC",
   "devDependencies": {
     "pre-commit": "^1.2.2"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2"
   }
 }
