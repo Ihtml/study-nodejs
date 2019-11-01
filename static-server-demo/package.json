@@ -15,6 +15,7 @@
   "author": "IFE",
   "license": "ISC",
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
