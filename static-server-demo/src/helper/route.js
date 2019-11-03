@@ -14,11 +14,10 @@ module.exports = async function (req, res, filePath) {
         // })
         fs.createReadStream(filePath, {encoding: 'utf-8'}).pipe(res)
     } else if (stats.isDirectory()) {
-        fs.readdir(filePath, (err, files) => {
-            res.statusCode = 200
-            res.setHeader('Content-Type', 'text/plain')
-            res.end(files.join('.'))
-        })
+        const files = await readdir(filePath)
+        res.statusCode = 200
+        res.setHeader('Content-Type', 'text/plain')
+        res.end(files.join('.'))
     }
     } catch (err) {
         res.statusCode = 404

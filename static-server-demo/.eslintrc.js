@@ -11,6 +11,7 @@ module.exports = {
     },
     'parserOptions': {
         'ecmaVersion': 6,
+        "sourceType": "script"
     },
     'rules': {
         'indent': [
