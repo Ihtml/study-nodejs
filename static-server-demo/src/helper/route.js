@@ -1,7 +1,13 @@
 const fs = require('fs')
+const path = require('path')
+const Handlebars = require('handlebars')
 const promisify = require('util').promisify
 const stat = promisify(fs.stat)
 const readdir = promisify(fs.readdir)
+
+const tplPath = path.join(__dirname, '../template/dir.tpl')
+const source = fs.readFileSync(tplPath)  // 只会执行一次，以后就会用缓存
+const template = Handlebars.compile(source.toString()) // fs读文件默认返回Buffer
 
 module.exports = async function (req, res, filePath) {
   try {
