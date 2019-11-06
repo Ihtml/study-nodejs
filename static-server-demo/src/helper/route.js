@@ -24,7 +24,7 @@ module.exports = async function (req, res, filePath) {
     } else if (stats.isDirectory()) {
         const files = await readdir(filePath)
         res.statusCode = 200
-        res.setHeader('Content-Type', 'text/html')
+        res.setHeader('Content-Type', 'text/html') // TODO 根据扩展名，返回不同的格式。
         const dir = path.relative(config.root, filePath)
         const data = {
           title: path.basename(filePath),
