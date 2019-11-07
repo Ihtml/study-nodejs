@@ -5,6 +5,7 @@ const promisify = require('util').promisify
 const stat = promisify(fs.stat)
 const readdir = promisify(fs.readdir)
 const config = require('../config/defaultConfig')
+const mime = require('./mime')
 
 const tplPath = path.join(__dirname, '../template/dir.tpl')
 const source = fs.readFileSync(tplPath)  // 只会执行一次，以后就会用缓存
@@ -15,16 +16,14 @@ module.exports = async function (req, res, filePath) {
   try {
     const stats = await stat(filePath)
     if(stats.isFile()){
+        const contenType = mime(filePath) + ';charset=utf-8'
         res.statusCode = 200
-        res.setHeader('Content-Type', 'text/plain; charset=utf-8')
-        // res.readFile(filePath, (err, data) => {
-        //   res.end(data)
-        // })
+        res.setHeader('Content-Type', contenType)
         fs.createReadStream(filePath, {encoding: 'utf-8'}).pipe(res)
     } else if (stats.isDirectory()) {
         const files = await readdir(filePath)
         res.statusCode = 200
-        res.setHeader('Content-Type', 'text/html') // TODO 根据扩展名，返回不同的格式。
+        res.setHeader('Content-Type', 'text/html')
         const dir = path.relative(config.root, filePath)
         const data = {
           title: path.basename(filePath),
