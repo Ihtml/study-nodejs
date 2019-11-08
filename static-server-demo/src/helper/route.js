@@ -28,7 +28,12 @@ module.exports = async function (req, res, filePath) {
         const data = {
           title: path.basename(filePath),
           dir: dir ? `/${dir}` : '', // 如果访问根路径，dir返回空
-          files
+          files: files.map(file => {
+            return {
+              file,
+              icon: mime(file)
+            }
+          })
         }
         res.end(template(data))
     }
