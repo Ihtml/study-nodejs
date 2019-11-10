@@ -7,10 +7,11 @@ const {createGzip, createDeflate} = require('zlib')
  */
 module.exports = (rs, req, res) => {
     // 拿到请求中声明的支持
-    const acceptEncoding = req.header['accecp-encoding']
+    const acceptEncoding = req.header['accept-encoding']
     if (!acceptEncoding || !acceptEncoding.match(/\b(gzip|deflate)\b/)) {
         return rs
     } else if (acceptEncoding.match(/\bgzip\b/)) {
+        // 告诉浏览器使用的哪种方式压缩
         res.setHeader('Content-Encoding', 'gzip')
         return rs.pipe(createGzip())
     } else if (acceptEncoding.match(/\bdeflate\b/)) {
