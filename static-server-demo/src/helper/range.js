@@ -3,7 +3,16 @@ module.exports = (totalSize, req, res) => {
     if (!range) {
         return {code: 200}
     }
+
+    // 如果请求头中带了range字段
     const sizes =  range.match(/bytes=(\d*)-(\d*)/)
+    // sizes: [ 'bytes=0-100',
+    //       '0',
+    //       '100',
+    //       index: 0,
+    //       input: 'bytes=0-100',
+    //       groups: undefined ]
+
     const end = sizes[2] ? parseInt(sizes[2]) : totalSize - 1
     const start = sizes[1] ? parseInt(sizes[1]) : totalSize - end
 

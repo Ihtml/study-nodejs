@@ -6,7 +6,7 @@ const route = require('./helper/route')
 
 const server = http.createServer((req, res) => {
     const filePath = path.join(conf.root, req.url)  // 得到要访问的路径
-    console.log(filePath)
+    console.log(req)
     route(req, res, filePath)
 })
 

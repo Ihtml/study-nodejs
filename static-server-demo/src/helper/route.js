@@ -18,7 +18,10 @@ const template = Handlebars.compile(source.toString())
 module.exports = async function (req, res, filePath) {
   try {
     const stats = await stat(filePath)
+
+    // 如果是文件
     if (stats.isFile()) {
+      // 判断文件类型，返回对应的Content-Type
       const contenType = mime(filePath) + ';charset=utf-8'
       res.setHeader('Content-Type', contenType)
 
@@ -47,11 +50,13 @@ module.exports = async function (req, res, filePath) {
         rs = compress(rs, req, res) // 压缩后的文件
       }
       rs.pipe(res)
+
+      // 如果是文件夹，返回文件夹里各文件的链接
     } else if (stats.isDirectory()) {
       const files = await readdir(filePath)
       res.statusCode = 200
       res.setHeader('Content-Type', 'text/html')
-      const dir = path.relative(config.root, filePath)
+      const dir = path.relative(config.root, filePath) // return: 'src‘ || ’‘
       const data = {
         title: path.basename(filePath),
         dir: dir ? `/${dir}` : '', // 如果访问根路径，dir返回空
