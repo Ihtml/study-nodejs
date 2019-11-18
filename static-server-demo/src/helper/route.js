@@ -4,7 +4,6 @@ const Handlebars = require('handlebars')
 const promisify = require('util').promisify
 const stat = promisify(fs.stat)
 const readdir = promisify(fs.readdir)
-const config = require('../config/defaultConfig')
 const mime = require('./mime')
 const compress = require('./compress')
 const range = require('./range')
@@ -15,7 +14,7 @@ const source = fs.readFileSync(tplPath)  // 只会执行一次，以后就会用
 // fs读文件默认返回Buffer,需要转为字符串
 const template = Handlebars.compile(source.toString())
 
-module.exports = async function (req, res, filePath) {
+module.exports = async function (req, res, filePath, config) {
   try {
     const stats = await stat(filePath)
 

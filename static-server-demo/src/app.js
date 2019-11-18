@@ -4,13 +4,23 @@ const path = require('path')
 const conf = require('./config/defaultConfig')
 const route = require('./helper/route')
 
-const server = http.createServer((req, res) => {
-    const filePath = path.join(conf.root, req.url)  // 得到要访问的路径
-    console.log(req)
-    route(req, res, filePath)
-})
+class Server {
+    constructor(config){
+    // 用户传进来的config和默认的conf做合并
+        this.conf = Object.assign({}, conf, config)
+    }
+    start(){
+        const server = http.createServer((req, res) => {
+            const filePath = path.join(this.conf.root, req.url)  // 得到要访问的路径
+            console.log(req.url)
+            route(req, res, filePath, this.conf)
+        })
 
-server.listen(conf.port, conf.hostname, () => {
-    const addr = `Server running at http://${conf.hostname}:${conf.port}/`
-    console.log(`Server started at ${chalk.green(addr)}`)
-})
+        server.listen(this.conf.port, this.conf.hostname, () => {
+            const addr = `Server running at http://${this.conf.hostname}:${this.conf.port}/`
+            console.log(`Server started at ${chalk.green(addr)}`)
+        })
+    }
+}
+
+module.exports =  Server

@@ -314,7 +314,7 @@ myEmitter.on('event', (a, b) => {
 myEmitter.emit('event', 'a', 'b');
 ```
 
-如果事件只想被触发一次，可以用[eventEmitter.on](http://nodejs.cn/api/events.html#events_handling_events_only_once),当事件被触发时，监听器会被注销，然后再调用。
+如果事件只想被触发一次，可以用[eventEmitter.once](http://nodejs.cn/api/events.html#events_handling_events_only_once),当事件被触发时，监听器会被注销，然后再调用。
 
 移除事件监听：[emitter.removeListener(eventName, listener)](http://nodejs.cn/api/events.html#events_emitter_removelistener_eventname_listener),从名为 `eventName` 的事件的监听器数组中移除指定的 `listener`。
 

@@ -2,7 +2,7 @@
   "name": "static-server-demo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
-    "handlebars": "^4.5.1"
+    "handlebars": "^4.5.1",
+    "yargs": "^15.0.1"
   }
 }
