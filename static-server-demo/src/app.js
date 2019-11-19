@@ -3,6 +3,7 @@ const chalk = require('chalk')
 const path = require('path')
 const conf = require('./config/defaultConfig')
 const route = require('./helper/route')
+const openUrl = require('./helper/openUrl')
 
 class Server {
     constructor(config){
@@ -17,8 +18,10 @@ class Server {
         })
 
         server.listen(this.conf.port, this.conf.hostname, () => {
-            const addr = `Server running at http://${this.conf.hostname}:${this.conf.port}/`
+            const addr = `http://${this.conf.hostname}:${this.conf.port}/`
             console.log(`Server started at ${chalk.green(addr)}`)
+            // 自动打开URL
+            openUrl(addr)
         })
     }
 }
