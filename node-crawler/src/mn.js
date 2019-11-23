@@ -24,6 +24,12 @@ const {screenshot} = require('./config/default');
   page.on('load', () => {
     console.log('等待页面加载完成')
     
+    const srcs = await page.evaluate(() => {
+      const images = document.querySelectorAll('img.main_img');
+      return Array.prototype.map.call(images, img => img.src);
+    })
+    console.log(`get ${srcs.length} images`);
+    
   })
   await browser.close()
 })()
