@@ -18,18 +18,20 @@ const {screenshot} = require('./config/default');
   //  模拟鼠标键输入 
   await page.focus('#kw')
   await page.keyboard.sendCharacter('猫')
-  await page.click('.s_btn')
+  await page.click('.s_search');
   console.log('go to search list')
 
-  page.on('load', () => {
+  page.on('load',async () => {
     console.log('等待页面加载完成')
     
     const srcs = await page.evaluate(() => {
       const images = document.querySelectorAll('img.main_img');
       return Array.prototype.map.call(images, img => img.src);
     })
-    console.log(`get ${srcs.length} images`);
+    console.log(`get ${srcs.length} images`)
+    console.log(srcs);
     
+    await browser.close()
+
   })
-  await browser.close()
 })()
