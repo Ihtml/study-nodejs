@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const { mn } = require('./config/default');
-const {screenshot} = require('./config/default');
+const srcToImg = require('./tool/srcToImg');
 
 (async () => {
   const browser = await puppeteer.launch()
@@ -22,15 +22,24 @@ const {screenshot} = require('./config/default');
   console.log('go to search list')
 
   page.on('load',async () => {
+    await page.waitFor(1000)
     console.log('等待页面加载完成')
     
     const srcs = await page.evaluate(() => {
       const images = document.querySelectorAll('img.main_img');
-      return Array.prototype.map.call(images, img => img.src);
+      return Array.prototype.map.call(images, img => img.dataset['imgurl']);
     })
     console.log(`get ${srcs.length} images`)
     console.log(srcs);
-    
+    async function saveImg() {
+      for (let i = 0; i < srcs.length; i++) {
+        console.log(i);
+        await page.waitFor(200)
+        await srcToImg(srcs[i], mn)
+      }
+    }
+    saveImg()
+
     await browser.close()
 
   })
