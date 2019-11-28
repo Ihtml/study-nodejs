@@ -14,7 +14,7 @@ Node.js常用场景：
 
 * Web Server
 * 本地代码构建（webpack、babel）
-* 开发小工具
+* 开发小工具，造轮子
 
 ## 二、Node.js的CommonJS规范
 
@@ -115,7 +115,7 @@ Node.js有多种调试方式，可以参考官方文档[调试指南](https://no
 
 如果是使用Chromium 内核的浏览器打开 `chrome://inspect`。点击配置按钮确保你的目标宿主和端口号列入其中。在命令行里启动文件的时候加上`--inspect-brk`,例如：`node --inspect-brk test.js`会让test.js在入口处停住。现在浏览器窗口里会有Remote Target,点击inspect就进入调试环境。
 
-如果使用VScode编辑器开发，点击左侧侧边栏调试按钮，再点击开始调试按钮就可以开始调试。
+如果使用VScode编辑器开发，点击左侧侧边栏调试按钮，再点击开始调试按钮就可以开始调试。如果是调试一个项目，必须**指定package.json的main选项是正确的入口文件。**
 
 ## 五、Node.js常见API
 
@@ -449,4 +449,21 @@ test()
 
 
 ```
+
+## 六、Express
+
+安装Express官方脚手架
+
+```bash
+npm install express-generator -g
+express express-test
+cd express-test
+npm install & npm start
+```
+
+访问localhost:3000如果显示Express欢迎页说明启动成功
+
+为方便重启该代码后重启和设置环境变量，安装nodemon和cross-env
+
+`npm i nodemon cross-env -D`
 
