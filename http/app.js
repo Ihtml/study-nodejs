@@ -14,11 +14,17 @@ const server = http.createServer((req, res) => {
     // 请求的参数转换为对象
     const query = querystring.parse(url.split('?')[1]) 
 
+    const resData = {
+        method,
+        url,
+        path,
+        query
+    }
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/plain;charset=utf-8')
     let result = 'nothing'
     if (method === 'GET') {
-         result = JSON.stringify(query)
+         result = JSON.stringify(resData)
          console.log('res: ', result);
          res.end(result)
     }
@@ -30,12 +36,13 @@ const server = http.createServer((req, res) => {
         result = ''
         // 当接收到post数据的时候会触发‘data’事件
         req.on('data', chunk => {
-            result += chunk.toString() // chunk本身是二进制的格式
+            result += chunk.toString() // chunk本身是二进制的格式,要转字符串
         })
         // 接收完后触发end事件
         req.on('end', () => {
-            console.log('res: ', result);
-            res.end(result)
+            resData.postData = result
+            console.log('res: ', resData);
+            res.end(JSON.stringify(resData))
         })
     }
 
