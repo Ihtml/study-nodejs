@@ -33,15 +33,17 @@ const server = http.createServer((req, res) => {
         // 数据格式
         const contType = req.headers['content-type']
         console.log('req content-type: ', contType);
-        result = ''
+        result = Buffer.from([])
         // 当接收到post数据的时候会触发‘data’事件
         req.on('data', chunk => {
-            result += chunk.toString() // chunk本身是二进制的格式,要转字符串
+            result = Buffer.concat([result,chunk])// chunk本身是二进制的格式,要转字符串
         })
         // 接收完后触发end事件
         req.on('end', () => {
+            // resData.postData = result
+            result = result.toString()
             resData.postData = result
-            console.log('res: ', resData);
+            console.log('res: ', result);
             res.end(JSON.stringify(resData))
         })
     }
