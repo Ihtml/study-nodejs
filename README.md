@@ -467,3 +467,7 @@ npm install & npm start
 
 `npm i nodemon cross-env -D`
 
+Package.json里增加一行命令：`"dev": "cross-env NODE_ENV=dev nodemon  ./bin/www"`
+
+然后`npm run dev`就可以启动了
+
