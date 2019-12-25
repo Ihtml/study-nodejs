@@ -6,6 +6,8 @@ var logger = require('morgan'); // 生成日志
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const blogRouter = require('./routes/blog');
+const userRouter = require('./routes/user');
 
 var app = express(); // 每次客户端访问生成一个实例
 
@@ -22,6 +24,8 @@ app.use(express.static(path.join(__dirname, 'public'))); // 提供静态资源�
 // 注册路由
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/blog', blogRouter);
+app.use('/api/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
