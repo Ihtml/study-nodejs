@@ -52,7 +52,7 @@ class Middleware {
         curRoutes = curRoutes.concat(this.routes[method])
 
         curRoutes.forEach((routeInfo) => {
-            if (url.indexOf(routeInfo.path === 0)) { // 是否匹配路径
+            if (url.indexOf(routeInfo.path) === 0) { // 是否匹配路径
                 stack = stack.concat(routeInfo.stack)
             }
         })
@@ -81,7 +81,6 @@ class Middleware {
             }
             const url = req.url
             const method = req.method.toLowerCase()
-
             const resultList = this.match(method, url)
             this.handle(req, res, resultList)
         }
